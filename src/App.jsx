@@ -1,90 +1,108 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Camera, ChevronLeft, ChevronRight, Menu, Moon, Search, Sun, X } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Check, Code2, GraduationCap, Github, Globe2, Mail, Menu, Moon, Send, Sun, X } from 'lucide-react';
 
-const photos = [
-  { id: 1, title: 'The Quiet Between', category: 'Nature', place: 'Dolomites, Italy', year: '2024', image: 'photo-1464822759023-fed622ff2c3b', ratio: 'tall' },
-  { id: 2, title: 'Soft Light, Still Water', category: 'Nature', place: 'Lake Bled, Slovenia', year: '2023', image: 'photo-1470770841072-f978cf4d019e', ratio: 'wide' },
-  { id: 3, title: 'A Study in Solitude', category: 'Portrait', place: 'Joshua Tree, California', year: '2024', image: 'photo-1534528741775-53994a69daeb', ratio: 'square' },
-  { id: 4, title: 'Somewhere, Slowly', category: 'Travel', place: 'Marrakech, Morocco', year: '2023', image: 'photo-1539020140153-e479b8c22e70', ratio: 'tall' },
-  { id: 5, title: 'Lines of the City', category: 'Architecture', place: 'Copenhagen, Denmark', year: '2024', image: 'photo-1511818966892-d7d671e672a2', ratio: 'wide' },
-  { id: 6, title: 'Wild, Open Country', category: 'Nature', place: 'Iceland', year: '2022', image: 'photo-1472396961693-142e6e269027', ratio: 'square' },
-  { id: 7, title: 'Golden Hour, No. 02', category: 'Portrait', place: 'Lisbon, Portugal', year: '2024', image: 'photo-1506794778202-cad84cf45f1d', ratio: 'wide' },
-  { id: 8, title: 'A Place to Begin', category: 'Architecture', place: 'Kyoto, Japan', year: '2023', image: 'photo-1511818966892-d7d671e672a2', ratio: 'tall', position: 'center 40%' },
-  { id: 9, title: 'Blue Hour, Atlantic', category: 'Travel', place: 'Madeira, Portugal', year: '2022', image: 'photo-1500530855697-b586d89ba3ee', ratio: 'square' },
-  { id: 10, title: 'Through the Pines', category: 'Nature', place: 'Oregon, USA', year: '2023', image: 'photo-1448375240586-882707db888b', ratio: 'tall' },
-  { id: 11, title: 'The Everyday Ritual', category: 'Portrait', place: 'Seoul, South Korea', year: '2023', image: 'photo-1531123897727-8f129e1688ce', ratio: 'wide' },
-  { id: 12, title: 'Quiet Geometry', category: 'Architecture', place: 'Oslo, Norway', year: '2022', image: 'photo-1487958449943-2429e8be8625', ratio: 'square' },
+const socialLinks = [
+  { label: 'GitHub', href: 'https://github.com/mnalambd09', icon: Github },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/noor-alam-ab69b3153/', icon: BriefcaseBusiness },
+  { label: 'Facebook', href: 'https://www.facebook.com/mnalambd09', icon: Globe2 },
 ];
+const skills = [
+  { name: 'HTML', level: 92, group: 'Web development' }, { name: 'CSS', level: 90, group: 'Web development' },
+  { name: 'JavaScript', level: 78, group: 'Web development' }, { name: 'React', level: 80, group: 'Web development' },
+  { name: 'Git', level: 76, group: 'Web development' }, { name: 'GitHub', level: 76, group: 'Web development' },
+  { name: 'Piping & Supervision', level: 95, group: 'Engineering' }, { name: 'Project Management', level: 90, group: 'Engineering' },
+  { name: 'Korean Language & Admin', level: 90, group: 'Languages' },
+];
+const projects = [
+  { title: 'JUNJE Website', category: 'Web development', number: '01', description: 'Mechanical project management and administration portal.', stack: ['React', 'JavaScript', 'Operations'], href: 'https://mnalambd09.github.io/junje-website/', visual: 'project-amber' },
+  { title: 'Md-nooralam Profile', category: 'Web development', number: '02', description: 'An interactive career guide and personal portfolio showcase.', stack: ['Web design', 'Portfolio', 'Responsive'], href: 'https://mnalambd09.github.io/Md-nooralam/', visual: 'project-violet' },
+];
+const experience = [
+  { dates: '2023 — Present', company: 'Hyundai Samho Heavy Industries', role: 'Mechanical Piping Work', location: 'South Korea', href: 'https://www.hshi.co.kr/' },
+  { dates: '2021 — 2022', company: 'Samsung Engineering & Construction', role: 'Supervisor · Terminal 3', location: 'Dhaka, Bangladesh', href: 'https://www.secc.co.kr/' },
+  { dates: '2013 — 2021', company: 'Hanwha Engineering', role: 'Admin · Korean Team, JUNJE Team', location: 'Iraq', href: 'https://www.hanwha.com/' },
+  { dates: '2013 · 6 months', company: 'Grameen Shakti', role: 'Field Assistant · Solar Energy', location: 'Bangladesh', href: 'https://www.gshakti.org/' },
+  { dates: '2009 — 2011', company: 'Won Engineering', role: 'Computer Operator & Admin', location: 'Libya', href: 'http://won-eng.com/' },
+  { dates: '2008 · 7 months', company: 'Diamond Mechanical Engineering', role: 'Pipe Fitter · Industrial Project', location: 'Bangladesh', href: 'https://www.graphicstextiles.com/' },
+  { dates: '2007 — 2008', company: 'Shapla Mechanical Engineering', role: 'Piping Helper · Cotton Mills', location: 'Bangladesh', href: 'http://naheedgroup.com/' },
+];
+const education = [
+  { year: '2013', title: 'Bachelor of Social Science (B.S.S)', school: 'Brahmanbaria Government College', detail: 'Degree information reproduced from the reference portfolio.' },
+  { year: '2009 — 2012', title: 'Higher Secondary Certificate (HSC)', school: 'Alhaj Begum Nurunnahar College', detail: 'Business Studies' },
+  { year: '2007', title: 'Secondary School Certificate (SSC)', school: 'Talshahar High School', detail: 'Science' },
+];
+const navItems = [['About', '#about'], ['Skills', '#skills'], ['Projects', '#projects'], ['Experience', '#experience'], ['Contact', '#contact']];
 
-const imageUrl = (id, width = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
-const categories = ['All work', 'Nature', 'Portrait', 'Travel', 'Architecture'];
+function SectionLabel({ children, number }) { return <p className="section-label"><span>{number}</span>{children}</p>; }
+function Reveal({ children, className = '', delay = 0 }) { return <div className={`reveal ${className}`} style={{ '--reveal-delay': `${delay}ms` }}>{children}</div>; }
+function Header({ theme, setTheme }) {
+  const [open, setOpen] = useState(false);
+  return <header className="header"><a className="brand" href="#top" aria-label="Noor Alam home"><span className="brand-icon">N<span>.</span></span><span>NOOR ALAM<small>SUPERVISOR · DEVELOPER</small></span></a>
+    <button className="menu-toggle" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
+    <nav className={open ? 'nav open' : 'nav'} aria-label="Main navigation">{navItems.map(([label, href]) => <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>)}<a className="nav-contact" href="#contact" onClick={() => setOpen(false)}>Let’s talk <ArrowUpRight size={15} /></a></nav>
+    <button className="theme-toggle" aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}</button>
+  </header>;
+}
+function SkillCard({ skill, index }) { return <Reveal delay={index * 65}><article className="skill-card"><div className="skill-top"><span className="skill-dot" /><span>{skill.group}</span><span className="skill-level">{skill.level}%</span></div><h3>{skill.name}</h3><div className="skill-track" role="progressbar" aria-label={`${skill.name} proficiency`} aria-valuenow={skill.level} aria-valuemin="0" aria-valuemax="100"><span style={{ '--level': `${skill.level}%` }} /></div></article></Reveal>; }
+function ContactForm() {
+  const [values, setValues] = useState({ name: '', email: '', message: '' });
+  const [errors, setErrors] = useState({});
+  const [sent, setSent] = useState(false);
+  function submit(event) {
+    event.preventDefault();
+    const next = {};
+    if (!values.name.trim()) next.name = 'Please enter your name.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = 'Enter a valid email address.';
+    if (values.message.trim().length < 12) next.message = 'Please add a little more detail (12 characters minimum).';
+    setErrors(next);
+    if (Object.keys(next).length) return;
+    const subject = encodeURIComponent(`Portfolio enquiry from ${values.name.trim()}`);
+    const body = encodeURIComponent(`Name: ${values.name.trim()}\nEmail: ${values.email.trim()}\n\n${values.message.trim()}`);
+    window.location.href = `mailto:mnalambd09@gmail.com?subject=${subject}&body=${body}`;
+    setSent(true);
+  }
+  return <form className="contact-form" onSubmit={submit} noValidate>
+    <label>Your name<input value={values.name} onChange={e => setValues({ ...values, name: e.target.value })} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} placeholder="Name" />{errors.name && <span className="field-error" id="name-error">{errors.name}</span>}</label>
+    <label>Email address<input type="email" value={values.email} onChange={e => setValues({ ...values, email: e.target.value })} autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} placeholder="you@example.com" />{errors.email && <span className="field-error" id="email-error">{errors.email}</span>}</label>
+    <label>Your message<textarea rows="4" value={values.message} onChange={e => setValues({ ...values, message: e.target.value })} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} placeholder="Tell me a little about what you have in mind…" />{errors.message && <span className="field-error" id="message-error">{errors.message}</span>}</label>
+    <div className="form-bottom"><button className="button button-primary" type="submit">{sent ? 'Open your email app' : 'Send a message'}{sent ? <Check size={16} /> : <Send size={15} />}</button><span>Your email app will open to send your message.</span></div>
+  </form>;
+}
 
 export default function App() {
-  const [category, setCategory] = useState('All work');
-  const [search, setSearch] = useState('');
-  const [lightboxIndex, setLightboxIndex] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem('portfolio-theme') || 'dark');
-  const [menuOpen, setMenuOpen] = useState(false);
-
+  const [filter, setFilter] = useState('All projects');
+  const filteredProjects = useMemo(() => filter === 'All projects' ? projects : projects.filter(project => project.category === filter), [filter]);
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem('portfolio-theme', theme);
   }, [theme]);
-
-  const filtered = useMemo(() => photos.filter((photo) => {
-    const matchesCategory = category === 'All work' || photo.category === category;
-    const term = search.trim().toLowerCase();
-    const matchesSearch = !term || [photo.title, photo.category, photo.place, photo.year].some((value) => value.toLowerCase().includes(term));
-    return matchesCategory && matchesSearch;
-  }), [category, search]);
-
-  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
-  const moveLightbox = useCallback((direction) => setLightboxIndex((index) => index === null ? null : (index + direction + filtered.length) % filtered.length), [filtered.length]);
-
   useEffect(() => {
-    if (lightboxIndex === null) return undefined;
-    const onKeyDown = (event) => {
-      if (event.key === 'Escape') closeLightbox();
-      if (event.key === 'ArrowRight') moveLightbox(1);
-      if (event.key === 'ArrowLeft') moveLightbox(-1);
-    };
-    document.addEventListener('keydown', onKeyDown);
-    document.body.style.overflow = 'hidden';
-    return () => { document.removeEventListener('keydown', onKeyDown); document.body.style.overflow = ''; };
-  }, [lightboxIndex, closeLightbox, moveLightbox]);
-
-  const activePhoto = lightboxIndex === null ? null : filtered[lightboxIndex];
-
-  return (
-    <main className="site-shell">
-      <header className="topbar">
-        <a className="brand" href="#top" aria-label="Alex Morgan, home"><span className="brand-mark"><Camera size={17} strokeWidth={1.7} /></span><span>AM<span className="brand-period">.</span></span></a>
-        <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Main navigation">
-          <a href="#work" onClick={() => setMenuOpen(false)}>Work</a><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-        </nav>
-        <div className="top-actions"><span className="availability"><i /> Available for select projects</span><button className="theme-button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}>{theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}</button><button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button></div>
-      </header>
-
-      <section className="hero" id="top">
-        <div className="hero-copy"><p className="eyebrow"><span className="eyebrow-line" /> Independent photographer <span className="eyebrow-dot">·</span> Brooklyn, NY</p><h1>Looking closer.<br /><em>Feeling more.</em></h1><p className="hero-description">A collection of places, people, and moments that stayed with me. Made slowly, with intention.</p><a className="scroll-link" href="#work">Explore selected work <span><ArrowDown size={14} /></span></a></div>
-        <div className="hero-art"><div className="hero-photo-frame"><img src={imageUrl('photo-1500530855697-b586d89ba3ee', 1400)} alt="Sunlit mountain valley with a winding path" /><div className="photo-index">01 <span>/</span> 04</div></div><div className="hero-caption"><span>Somewhere in the Dolomites</span><span>46° 28' N — 11° 45' E</span></div><div className="hero-stamp">FIELD<br />NOTES<br /><span>№ 004</span></div></div>
-        <div className="hero-side-note">ALEX MORGAN <span>—</span> PHOTOGRAPHER</div>
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+  return <div className="site-shell" id="top">
+    <div className="ambient ambient-one" /><div className="ambient ambient-two" />
+    <Header theme={theme} setTheme={setTheme} />
+    <main>
+      <section className="hero section-wrap" id="about"><div className="hero-copy"><p className="eyebrow"><span className="availability-dot" /> OPEN TO THE RIGHT OPPORTUNITIES <span className="eyebrow-rule" /></p><h1>মোঃ নূরআলম<span className="hero-name-en">MD. NOOR ALAM</span><span className="hero-title">Building across<br /><em>two worlds.</em></span></h1><p className="hero-description">A supervisor and developer combining 16 years of international mechanical engineering experience with a growing passion for modern web technology.</p><div className="hero-actions"><a className="button button-primary" href="#projects">Explore my work <ArrowUpRight size={16} /></a><a className="button button-quiet" href="#contact">Get in touch <ArrowDown size={15} /></a></div><div className="hero-socials" aria-label="Social links">{socialLinks.map(({ label, href, icon: Icon }) => <a href={href} target="_blank" rel="noreferrer" aria-label={label} key={label}><Icon size={16} /></a>)}<a href="mailto:mnalambd09@gmail.com" aria-label="Email"><Mail size={16} /></a></div></div>
+        <Reveal className="hero-panel"><div className="panel-top"><span>BASED IN SOUTH KOREA</span><span className="panel-live"><i /> AVAILABLE</span></div><div className="hero-art"><div className="orbit orbit-a" /><div className="orbit orbit-b" /><div className="monogram">N<span>.</span></div><div className="art-caption"><span>ENGINEERING</span><span>×</span><span>DEVELOPMENT</span></div><div className="art-cross cross-one">+</div><div className="art-cross cross-two">+</div></div><div className="panel-bottom"><div><strong>16<span>+</span></strong><small>YEARS EXPERIENCE</small></div><div><strong>07</strong><small>CAREER CHAPTERS</small></div><div><strong>02</strong><small>FEATURED PROJECTS</small></div></div></Reveal>
+        <a className="hero-scroll" href="#skills"><span>SCROLL TO EXPLORE</span><ArrowDown size={14} /></a>
       </section>
 
-      <section className="work-section" id="work">
-        <div className="section-heading"><div><p className="eyebrow"><span className="eyebrow-line" /> The archive, 2022—24</p><h2>Selected <em>work</em></h2></div><p className="section-note">A few favorites from the road.<br />More stories, still unfolding.</p></div>
-        <div className="gallery-toolbar"><div className="filters" role="tablist" aria-label="Filter photographs">{categories.map((item) => <button key={item} role="tab" aria-selected={category === item} className={category === item ? 'active' : ''} onClick={() => setCategory(item)}>{item}</button>)}</div><label className="search-box"><Search size={16} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Find a story..." aria-label="Search photographs" />{search && <button onClick={() => setSearch('')} aria-label="Clear search"><X size={14} /></button>}</label></div>
-        <div className="results-line"><span>{filtered.length.toString().padStart(2, '0')} photographs</span><span>{category === 'All work' ? 'All collections' : category}</span></div>
-        {filtered.length ? <div className="gallery-grid">{filtered.map((photo, index) => <button className={`photo-card ${photo.ratio}`} key={photo.id} onClick={() => setLightboxIndex(index)} aria-label={`Open ${photo.title}`}><span className="card-image"><img src={imageUrl(photo.image, 900)} alt={photo.title} loading="lazy" style={{ objectPosition: photo.position || 'center' }} /><span className="image-open"><ArrowUpRight size={18} /></span></span><span className="card-info"><span><strong>{photo.title}</strong><small>{photo.place}</small></span><span className="card-meta"><span>{photo.category}</span><span>{photo.year}</span></span></span></button>)}</div> : <div className="empty-state"><span className="empty-icon"><Search size={20} /></span><h3>No stories found</h3><p>Try another search or choose a different collection.</p><button onClick={() => { setSearch(''); setCategory('All work'); }}>Clear filters <ArrowRight size={14} /></button></div>}
-        <div className="gallery-end"><span /> End of this collection <span /></div>
-      </section>
+      <section className="intro section-wrap"><Reveal><SectionLabel number="01">A little about me</SectionLabel><p className="intro-copy">From the complexity of <span>industrial projects</span> to the craft of <span>building for the web</span> — I bring curiosity, care, and a steady hand to everything I do.</p></Reveal><Reveal className="intro-note"><p>My career has taken me across Bangladesh, Iraq, Libya, and South Korea. Each chapter shaped how I solve problems, work with people, and keep learning.</p><a href="#experience" className="inline-link">A career built on experience <ArrowDown size={14} /></a></Reveal></section>
 
-      <section className="about-section" id="about"><div className="about-left"><p className="eyebrow"><span className="eyebrow-line" /> A little about me</p><h2>Finding the<br />extraordinary in<br /><em>the everyday.</em></h2></div><div className="about-right"><p className="about-copy">I’m Alex — a photographer drawn to the in-between. The pause before the sun goes down, the way a room holds someone’s story, the familiar feeling of being somewhere new.</p><p className="about-copy muted">I work with people and places to make images that feel honest, lived-in, and a little bit like a memory. Available worldwide for editorial, portrait, and commissioned work.</p><a className="text-link" href="mailto:hello@alexmorgan.studio">A bit more about me <ArrowUpRight size={16} /></a><div className="signature">Alex Morgan<span>Brooklyn, New York</span></div></div></section>
+      <section className="skills-section section-wrap" id="skills"><div className="section-heading"><Reveal><SectionLabel number="02">Skills & expertise</SectionLabel><h2>Practical skills.<br /><em>Real-world experience.</em></h2></Reveal><Reveal><p className="section-aside">A growing toolkit for the digital world, grounded in years of hands-on work across engineering, operations, and international teams.</p></Reveal></div><div className="skills-grid">{skills.map((skill, index) => <SkillCard key={skill.name} skill={skill} index={index} />)}</div><p className="skills-footnote"><span>*</span> Skill levels are self-assessed and can be edited in <code>src/App.jsx</code>.</p></section>
 
-      <section className="contact-section" id="contact"><div><p className="eyebrow"><span className="eyebrow-line" /> Have a story in mind?</p><h2>Let’s make<br /><em>something lasting.</em></h2></div><a href="mailto:hello@alexmorgan.studio" className="contact-link">Get in touch <ArrowUpRight size={19} /></a><span className="contact-orbit orbit-one" /><span className="contact-orbit orbit-two" /></section>
-      <footer className="footer"><a className="brand" href="#top"><span className="brand-mark"><Camera size={16} strokeWidth={1.7} /></span><span>AM<span className="brand-period">.</span></span></a><span>© 2024 Alex Morgan Studio</span><div><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={12} /></a><a href="mailto:hello@alexmorgan.studio">Email <ArrowUpRight size={12} /></a></div><a href="#top" className="back-top">Back to top <ArrowDown size={13} /></a></footer>
+      <section className="projects-section section-wrap" id="projects"><div className="section-heading"><Reveal><SectionLabel number="03">Selected projects</SectionLabel><h2>Ideas, made <em>useful.</em></h2></Reveal><div className="project-filters" role="group" aria-label="Filter projects">{['All projects', 'Web development'].map(item => <button key={item} onClick={() => setFilter(item)} aria-pressed={filter === item} className={filter === item ? 'active' : ''}>{item}<span>{item === 'All projects' ? projects.length : projects.filter(p => p.category === item).length}</span></button>)}</div></div><div className="projects-grid">{filteredProjects.map((project, index) => <Reveal key={project.title} delay={index * 110}><article className="project-card"><div className={`project-visual ${project.visual}`}><span className="project-index">PROJECT / {project.number}</span><div className="mock-window"><div className="mock-bar"><i /><i /><i /><span>{project.title.toLowerCase().replaceAll(' ', '-')}</span></div><div className="mock-content"><div className="mock-sidebar"><b>N<span>.</span></b><i /><i /><i /></div><div className="mock-main"><span className="mock-kicker">{project.number} — PORTFOLIO</span><strong>{project.title}</strong><div className="mock-lines"><i /><i /><i /></div><div className="mock-cards"><i /><i /><i /></div></div></div></div><span className="visual-tag">{project.category}</span></div><div className="project-info"><div><h3>{project.title}</h3><p>{project.description}</p><div className="tag-list">{project.stack.map(tag => <span key={tag}>{tag}</span>)}</div></div><a className="project-link" href={project.href} target="_blank" rel="noreferrer" aria-label={`Open ${project.title}`}><ArrowUpRight size={19} /></a></div></article></Reveal>)}</div></section>
 
-      {activePhoto && <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${activePhoto.title} photograph`} onMouseDown={(event) => { if (event.target === event.currentTarget) closeLightbox(); }}><button className="lightbox-close" onClick={closeLightbox} aria-label="Close image"><X size={22} /></button><button className="lightbox-arrow prev" onClick={() => moveLightbox(-1)} aria-label="Previous image"><ChevronLeft size={26} /></button><div className="lightbox-content"><img src={imageUrl(activePhoto.image, 1800)} alt={activePhoto.title} /><div className="lightbox-caption"><div><span>{activePhoto.category} · {activePhoto.place}</span><h3>{activePhoto.title}</h3></div><span>{String(lightboxIndex + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}</span></div></div><button className="lightbox-arrow next" onClick={() => moveLightbox(1)} aria-label="Next image"><ChevronRight size={26} /></button><span className="keyboard-hint"><ArrowLeft size={12} /> <ArrowRight size={12} /> to navigate <span>·</span> esc to close</span></div>}
+      <section className="experience-section section-wrap" id="experience"><div className="section-heading"><Reveal><SectionLabel number="04">Work experience</SectionLabel><h2>A global career,<br /><em>built step by step.</em></h2></Reveal><Reveal><p className="section-aside">Sixteen years working alongside teams on industrial, mechanical, energy, and construction projects.</p></Reveal></div><div className="timeline">{experience.map((item, index) => <Reveal key={item.company} delay={Math.min(index * 45, 180)}><article className="timeline-item"><div className="timeline-date">{item.dates}</div><div className="timeline-marker"><span /></div><div className="timeline-content"><div><h3>{item.company}</h3><p>{item.role}</p><span className="timeline-location">{item.location}</span></div><a href={item.href} target="_blank" rel="noreferrer" aria-label={`Visit ${item.company} website`}><ArrowUpRight size={17} /></a></div></article></Reveal>)}</div></section>
+
+      <section className="education-section section-wrap" id="education"><div className="education-intro"><Reveal><SectionLabel number="05">Education & learning</SectionLabel><h2>Always a<br /><em>student.</em></h2><p>Formal education gave me a foundation. Hands-on work and an ongoing curiosity keep me moving forward.</p><div className="learning-note"><Code2 size={18} /><span>Currently growing in<small>Modern web development · React · JavaScript</small></span></div></Reveal></div><div className="education-list">{education.map((item, index) => <Reveal key={item.year} delay={index * 90}><article className="education-card"><span className="education-icon"><GraduationCap size={20} /></span><span className="education-year">{item.year}</span><div><h3>{item.title}</h3><p>{item.school}</p><span>{item.detail}</span></div></article></Reveal>)}</div></section>
+
+      <section className="contact-section section-wrap" id="contact"><div className="contact-intro"><Reveal><SectionLabel number="06">Get in touch</SectionLabel><h2>Have something<br />good in <em>mind?</em></h2><p>For project conversations, professional opportunities, or a friendly hello — I’d be glad to hear from you.</p><a className="email-link" href="mailto:mnalambd09@gmail.com"><Mail size={17} />mnalambd09@gmail.com<ArrowUpRight size={15} /></a><a className="phone-link" href="tel:+821022162484">+82 10-2216-2484</a><div className="contact-socials">{socialLinks.map(({ label, href, icon: Icon }) => <a href={href} target="_blank" rel="noreferrer" key={label}><Icon size={15} />{label}<ArrowUpRight size={12} /></a>)}</div></Reveal></div><Reveal className="form-wrap"><div className="form-heading"><span>01 / SAY HELLO</span><span>Usually reply within 2 days</span></div><ContactForm /></Reveal></section>
     </main>
-  );
+    <footer className="footer section-wrap"><a className="brand" href="#top"><span className="brand-icon">N<span>.</span></span><span>NOOR ALAM<small>SUPERVISOR · DEVELOPER</small></span></a><span className="footer-note">Built with care, one step at a time.</span><span className="footer-copy">© {new Date().getFullYear()} Md. Noor Alam</span><a className="back-top" href="#top">Back to top <ArrowUpRight size={14} /></a></footer>
+  </div>;
 }

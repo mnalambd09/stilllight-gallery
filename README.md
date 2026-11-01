@@ -1,6 +1,6 @@
-# Stilllight Gallery
+# Md. Noor Alam — Portfolio
 
-A responsive photography portfolio built with React, Vite, and modern CSS.
+A responsive personal portfolio built with React, Vite, JavaScript, and modern CSS. It highlights Noor Alam's international engineering career alongside his growing web development practice.
 
 ## Run locally
 
@@ -9,8 +9,6 @@ npm install
 npm run dev
 ```
 
-Vite prints the local URL after the server starts (normally `http://localhost:5173`).
-
 ## Production build
 
 ```bash
@@ -18,10 +16,13 @@ npm run build
 npm run preview
 ```
 
-The static production site is generated in `dist/`.
+The deployable static site is generated in `dist/`. Vercel can deploy it using the included `vercel.json`, or set the build command to `npm run build` and output directory to `dist`.
 
-## Deploy
+## Personalize the content
 
-Deploy the project to a static hosting provider such as Vercel or Netlify. Set the build command to `npm run build` and the publish/output directory to `dist`. No server-side runtime or environment variables are required.
+- Edit the name, introduction, skills, projects, career history, education, and social links in `src/App.jsx`.
+- The contact section uses `mailto:` and opens the visitor's email app with their message. No form service or credentials are needed.
+- Update the page title, search description, and social preview metadata in `index.html`.
+- Tune the visual theme, responsive rules, and motion in `src/styles.css`.
 
-Photography is loaded from Unsplash, and the selected theme is saved in the browser's local storage.
+Skill percentages are editable self-assessments. The reference portfolio lists education details; review those entries for accuracy before publishing.
